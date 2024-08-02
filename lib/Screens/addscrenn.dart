@@ -1,19 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
+import 'package:todo_app/Provider/radio_provider.dart';
 import 'package:todo_app/Utils/appstyles.dart';
 import 'package:todo_app/Widgets/dateandtime_widget.dart';
 import 'package:todo_app/Widgets/input_widget.dart';
 import 'package:todo_app/Widgets/radio_widget.dart';
 
-class Addnewtaskmodel extends StatelessWidget {
+import '../Provider/dateandtimeprovider.dart';
+
+class Addnewtaskmodel extends ConsumerWidget {
   const Addnewtaskmodel({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dateprov = ref.watch(dateProvider);
+
     return Container(
       padding: const EdgeInsets.all(30),
       height: MediaQuery.of(context).size.height * 0.70,
@@ -57,32 +63,72 @@ class Addnewtaskmodel extends StatelessWidget {
               Expanded(
                 child: Radiowidget(
                   categorycolor: Colors.lightGreen.shade300,
-                  titleradio: 'Learning',
+                  titleradio: 'LRN',
+                  valueinput: 1,
+                  onchanged: () {
+                    ref.read(radioProvider.notifier).update((state) => 1);
+                  },
                 ),
               ),
               Expanded(
                   child: Radiowidget(
-                      categorycolor: Colors.blue.shade200, titleradio: 'Work')),
+                categorycolor: Colors.blue.shade200,
+                titleradio: 'WRK',
+                valueinput: 2,
+                onchanged: () {
+                  ref.read(radioProvider.notifier).update(
+                        (state) => 2,
+                      );
+                },
+              )),
               Expanded(
                   child: Radiowidget(
-                      categorycolor: Colors.red.shade200,
-                      titleradio: 'General')),
+                categorycolor: Colors.red.shade200,
+                titleradio: 'GNL',
+                valueinput: 3,
+                onchanged: () {
+                  ref.read(radioProvider.notifier).update((state) => 3);
+                },
+              )),
             ],
           ),
           const Gap(20),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Dateandtime(
                 titletext: 'Date',
-                valutext: 'dd/mm/yy',
+                valutext: dateprov,
                 iconsection: CupertinoIcons.calendar,
+                ontap: () async {
+                  final getvalue = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2021),
+                    lastDate: DateTime(2025),
+                  );
+                  if (getvalue != null) {
+                    final format = DateFormat.yMd();
+                    ref.read(dateProvider.notifier).update(
+                          (state) => format.format(getvalue),
+                        );
+                  }
+                },
               ),
-              Gap(12),
+              const Gap(12),
               Dateandtime(
                 titletext: 'Time',
-                valutext: 'hh : mm',
+                valutext: ref.watch(timeProvider),
                 iconsection: CupertinoIcons.time,
+                ontap: () async {
+                  final gettime = await showTimePicker(
+                      context: context, initialTime: TimeOfDay.now());
+                  if (gettime != null) {
+                    ref
+                        .read(timeProvider.notifier)
+                        .update((state) => gettime.format(context));
+                  }
+                },
               )
             ],
           ),
@@ -100,7 +146,9 @@ class Addnewtaskmodel extends StatelessWidget {
                           side: const BorderSide(color: Colors.black)),
                       padding: const EdgeInsets.symmetric(
                           vertical: 14, horizontal: 70)),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   child: const Text('Cancel')),
               const Gap(10),
               ElevatedButton(

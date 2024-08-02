@@ -7,37 +7,52 @@ import 'package:todo_app/Utils/appstyles.dart';
 
 class Dateandtime extends StatelessWidget {
   const Dateandtime({
-    Key? key,
+    super.key,
     required this.titletext,
     required this.valutext,
     required this.iconsection,
-  }) : super(key: key);
+    required this.ontap,
+  });
   final String titletext;
   final String valutext;
   final IconData iconsection;
-
+  final VoidCallback ontap;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Expanded(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(titletext, style: Appstyles.headingone),
-            const Gap(6),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(titletext, style: Appstyles.headingone),
+          const Gap(6),
+          Material(
+            child: Ink(
               decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(8),
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(10)),
+              child: InkWell(
+                onTap: ontap,
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(iconsection),
+                      const Gap(12),
+                      Text(valutext)
+                    ],
+                  ),
+                ),
               ),
-              child: Row(
-                children: [Icon(iconsection), const Gap(12), Text(valutext)],
-              ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

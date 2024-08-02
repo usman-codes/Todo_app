@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:todo_app/Screens/addscrenn.dart';
+import 'package:todo_app/Widgets/cardtodolistwidget.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -14,7 +15,7 @@ class _HomescreenState extends State<Homescreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
+      backgroundColor: Colors.grey.shade300,
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
@@ -78,7 +79,12 @@ class _HomescreenState extends State<Homescreen> {
                   ),
                 ),
               ],
-            )
+            ),
+            const Gap(20),
+            ListView.builder(
+                itemCount: 4,
+                shrinkWrap: true,
+                itemBuilder: (context, index) => const Cardtodolistwidget()),
           ],
         ),
       ),
