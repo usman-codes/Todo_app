@@ -16,8 +16,8 @@ class _HomescreenState extends State<Homescreen> {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
         elevation: 0,
         title: ListTile(
           leading: CircleAvatar(
@@ -30,7 +30,7 @@ class _HomescreenState extends State<Homescreen> {
           ),
           subtitle: const Text(
             "Mohammad Usman",
-            style: TextStyle(fontSize: 20, color: Colors.black),
+            style: TextStyle(fontSize: 20, color: Colors.white),
           ),
         ),
         actions: [
@@ -64,8 +64,8 @@ class _HomescreenState extends State<Homescreen> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0XFFD5E8FA),
-                      foregroundColor: Colors.blue.shade800,
+                      backgroundColor: const Color.fromARGB(255, 53, 57, 61),
+                      foregroundColor: Colors.white,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8))),
@@ -76,7 +76,7 @@ class _HomescreenState extends State<Homescreen> {
                   child: const Text(
                     '+ New Task',
                   ),
-                )
+                ),
               ],
             )
           ],
