@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_app/Models/todomodel.dart';
 import 'package:todo_app/Provider/radio_provider.dart';
+import 'package:todo_app/Provider/service_provider.dart';
 import 'package:todo_app/Utils/appstyles.dart';
 import 'package:todo_app/Widgets/dateandtime_widget.dart';
 import 'package:todo_app/Widgets/input_widget.dart';
@@ -11,16 +13,26 @@ import 'package:todo_app/Widgets/radio_widget.dart';
 
 import '../Provider/dateandtimeprovider.dart';
 
-class Addnewtaskmodel extends ConsumerWidget {
-  Addnewtaskmodel({
-    super.key,
-  });
-
-  final titlecontroller = TextEditingController();
-  final desccontroller = TextEditingController();
+class Addnewtaskmodel extends ConsumerStatefulWidget {
+  const Addnewtaskmodel({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _AddnewtaskmodelState createState() => _AddnewtaskmodelState();
+}
+
+class _AddnewtaskmodelState extends ConsumerState<Addnewtaskmodel> {
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descController = TextEditingController();
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final dateprov = ref.watch(dateProvider);
 
     return Container(
@@ -53,10 +65,9 @@ class Addnewtaskmodel extends ConsumerWidget {
           ),
           const Gap(10),
           Textfieldwidget(
-            
             hinttext: 'Add Task Name',
             maxlines: 1,
-            txtcontroller: titlecontroller,
+            txtcontroller: _titleController,
             // key: key,
           ),
           const Gap(20),
@@ -68,7 +79,7 @@ class Addnewtaskmodel extends ConsumerWidget {
           Textfieldwidget(
             hinttext: 'Description',
             maxlines: 5,
-            txtcontroller: desccontroller,
+            txtcontroller: _descController,
             // key: key,
           ),
           const Gap(20),
@@ -175,26 +186,27 @@ class Addnewtaskmodel extends ConsumerWidget {
                       padding: const EdgeInsets.symmetric(
                           vertical: 14, horizontal: 70)),
                   onPressed: () {
-                    // final getradiovalue = ref.read(radioProvider);
-                    // String category = ' ';
-                    // switch (getradiovalue) {
-                    //   case 1:
-                    //     category = 'Learning';
-                    //     break;
-                    //   case 2:
-                    //     category = 'Working';
-                    //     break;
-                    //   case 3:
-                    //     category = 'General';
-                    //     break;
-                    // }
-                    // ref.read(serviceProvider).addtodo(Todomodel(
-                    //       titletask: titlecontroller.toString(),
-                    //       description: desccontroller.toString(),
-                    //       category: category,
-                    //       datetask: ref.read(dateProvider),
-                    //       timetask: ref.read(timeProvider),
-                    //     ));
+                    final getradiovalue = ref.read(radioProvider);
+                    String category = ' ';
+                    switch (getradiovalue) {
+                      case 1:
+                        category = 'Learning';
+                        break;
+                      case 2:
+                        category = 'Working';
+                        break;
+                      case 3:
+                        category = 'General';
+                        break;
+                    }
+                    ref.read(serviceProvider).addtodo(Todomodel(
+                          titletask: _titleController.text,
+                          description: _descController.text,
+                          category: category,
+                          datetask: ref.read(dateProvider),
+                          timetask: ref.read(timeProvider),
+                        ));
+                    Navigator.pop(context);
                   },
                   child: const Text('Create')),
             ],

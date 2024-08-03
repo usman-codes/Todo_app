@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Textfieldwidget extends StatelessWidget {
+class Textfieldwidget extends StatefulWidget {
   const Textfieldwidget({
     super.key,
     required this.hinttext,
@@ -12,6 +12,11 @@ class Textfieldwidget extends StatelessWidget {
   final TextEditingController txtcontroller;
 
   @override
+  State<Textfieldwidget> createState() => _TextfieldwidgetState();
+}
+
+class _TextfieldwidgetState extends State<Textfieldwidget> {
+  @override
   Widget build(BuildContext context) {
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -19,13 +24,13 @@ class Textfieldwidget extends StatelessWidget {
             color: Colors.grey.shade300,
             borderRadius: BorderRadius.circular(8)),
         child: TextFormField(
-          controller: txtcontroller,
+          controller: widget.txtcontroller,
           decoration: InputDecoration(
-            hintText: hinttext,
+            hintText: widget.hinttext,
             focusedBorder: InputBorder.none,
             enabledBorder: InputBorder.none,
           ),
-          maxLines: maxlines,
+          maxLines: widget.maxlines,
         ));
   }
 }
