@@ -12,9 +12,12 @@ import 'package:todo_app/Widgets/radio_widget.dart';
 import '../Provider/dateandtimeprovider.dart';
 
 class Addnewtaskmodel extends ConsumerWidget {
-  const Addnewtaskmodel({
+  Addnewtaskmodel({
     super.key,
   });
+
+  final titlecontroller = TextEditingController();
+  final desccontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -49,14 +52,25 @@ class Addnewtaskmodel extends ConsumerWidget {
             style: Appstyles.headingone,
           ),
           const Gap(10),
-          const Textfieldwidget(hinttext: 'Add Task Name', maxlines: 1),
+          Textfieldwidget(
+            
+            hinttext: 'Add Task Name',
+            maxlines: 1,
+            txtcontroller: titlecontroller,
+            // key: key,
+          ),
           const Gap(20),
           const Text(
             'Description',
             style: Appstyles.headingone,
           ),
           const Gap(10),
-          const Textfieldwidget(hinttext: 'Description', maxlines: 5),
+          Textfieldwidget(
+            hinttext: 'Description',
+            maxlines: 5,
+            txtcontroller: desccontroller,
+            // key: key,
+          ),
           const Gap(20),
           Row(
             children: [
@@ -108,7 +122,7 @@ class Addnewtaskmodel extends ConsumerWidget {
                     lastDate: DateTime(2025),
                   );
                   if (getvalue != null) {
-                    final format = DateFormat.yMd();
+                    final format = DateFormat.yMMMEd();
                     ref.read(dateProvider.notifier).update(
                           (state) => format.format(getvalue),
                         );
@@ -160,7 +174,28 @@ class Addnewtaskmodel extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(8)),
                       padding: const EdgeInsets.symmetric(
                           vertical: 14, horizontal: 70)),
-                  onPressed: () {},
+                  onPressed: () {
+                    // final getradiovalue = ref.read(radioProvider);
+                    // String category = ' ';
+                    // switch (getradiovalue) {
+                    //   case 1:
+                    //     category = 'Learning';
+                    //     break;
+                    //   case 2:
+                    //     category = 'Working';
+                    //     break;
+                    //   case 3:
+                    //     category = 'General';
+                    //     break;
+                    // }
+                    // ref.read(serviceProvider).addtodo(Todomodel(
+                    //       titletask: titlecontroller.toString(),
+                    //       description: desccontroller.toString(),
+                    //       category: category,
+                    //       datetask: ref.read(dateProvider),
+                    //       timetask: ref.read(timeProvider),
+                    //     ));
+                  },
                   child: const Text('Create')),
             ],
           )

@@ -41,11 +41,11 @@ class Cardtodolistwidget extends StatelessWidget {
                         shape: const CircleBorder(),
                         activeColor: Colors.black,
                         value: false,
-                        onChanged: (value) => print(value)),
+                        onChanged: (value) => (value)),
                   ),
                 ),
                 Transform.translate(
-                  offset: const Offset(0, -12),
+                  offset: const  Offset(0, -12),
                   child: Container(
                     child: Column(
                       children: [

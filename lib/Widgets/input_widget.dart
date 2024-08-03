@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 class Textfieldwidget extends StatelessWidget {
@@ -6,9 +5,12 @@ class Textfieldwidget extends StatelessWidget {
     super.key,
     required this.hinttext,
     required this.maxlines,
+    required this.txtcontroller,
   });
   final String hinttext;
   final int maxlines;
+  final TextEditingController txtcontroller;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,7 +18,8 @@ class Textfieldwidget extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.grey.shade300,
             borderRadius: BorderRadius.circular(8)),
-        child: TextField(
+        child: TextFormField(
+          controller: txtcontroller,
           decoration: InputDecoration(
             hintText: hinttext,
             focusedBorder: InputBorder.none,

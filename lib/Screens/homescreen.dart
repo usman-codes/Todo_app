@@ -4,14 +4,9 @@ import 'package:gap/gap.dart';
 import 'package:todo_app/Screens/addscrenn.dart';
 import 'package:todo_app/Widgets/cardtodolistwidget.dart';
 
-class Homescreen extends StatefulWidget {
+class Homescreen extends StatelessWidget {
   const Homescreen({super.key});
 
-  @override
-  State<Homescreen> createState() => _HomescreenState();
-}
-
-class _HomescreenState extends State<Homescreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +68,7 @@ class _HomescreenState extends State<Homescreen> {
                   onPressed: () => showModalBottomSheet(
                       isScrollControlled: true,
                       context: context,
-                      builder: (context) => const Addnewtaskmodel()),
+                      builder: (context) => Addnewtaskmodel()),
                   child: const Text(
                     '+ New Task',
                   ),
@@ -82,7 +77,7 @@ class _HomescreenState extends State<Homescreen> {
             ),
             const Gap(20),
             ListView.builder(
-                itemCount: 4,
+                itemCount: 1,
                 shrinkWrap: true,
                 itemBuilder: (context, index) => const Cardtodolistwidget()),
           ],

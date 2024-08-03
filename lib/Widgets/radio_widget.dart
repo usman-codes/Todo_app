@@ -29,7 +29,7 @@ class Radiowidget extends ConsumerWidget {
             title: Transform.translate(
                 offset: const Offset(-22, 0),
                 child: Text(
-                  titleradio,
+                  titleradio, 
                   style: TextStyle(
                       color: categorycolor, fontWeight: FontWeight.w700),
                 )),
