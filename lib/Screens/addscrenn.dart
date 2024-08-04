@@ -200,13 +200,19 @@ class _AddnewtaskmodelState extends ConsumerState<Addnewtaskmodel> {
                         break;
                     }
                     ref.read(serviceProvider).addtodo(Todomodel(
-                          titletask: _titleController.text,
-                          description: _descController.text,
-                          category: category,
-                          datetask: ref.read(dateProvider),
-                          timetask: ref.read(timeProvider),
+                        titletask: _titleController.text,
+                        description: _descController.text,
+                        category: category,
+                        datetask: ref.read(dateProvider),
+                        timetask: ref.read(timeProvider),
+                        isDone: false,
                         ));
                     Navigator.pop(context);
+                    ref.read(radioProvider.notifier).update((state) => 0);
+                    ref
+                        .read(dateProvider.notifier)
+                        .update((state) => 'dd/mm/yy');
+                    ref.read(timeProvider.notifier).update((state) => 'hh: mm');
                   },
                   child: const Text('Create')),
             ],

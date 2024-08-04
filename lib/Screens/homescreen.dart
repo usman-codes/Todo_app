@@ -1,14 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:todo_app/Provider/service_provider.dart';
 import 'package:todo_app/Screens/addscrenn.dart';
 import 'package:todo_app/Widgets/cardtodolistwidget.dart';
 
-class Homescreen extends StatelessWidget {
+class Homescreen extends ConsumerWidget {
   const Homescreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final todoData = ref.watch(fetchstreamProvider);
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
       appBar: AppBar(
@@ -68,7 +71,7 @@ class Homescreen extends StatelessWidget {
                   onPressed: () => showModalBottomSheet(
                       isScrollControlled: true,
                       context: context,
-                      builder: (context) => Addnewtaskmodel()),
+                      builder: (context) => const Addnewtaskmodel()),
                   child: const Text(
                     '+ New Task',
                   ),
@@ -77,9 +80,11 @@ class Homescreen extends StatelessWidget {
             ),
             const Gap(20),
             ListView.builder(
-                itemCount: 1,
+                itemCount: todoData.value?.length,
                 shrinkWrap: true,
-                itemBuilder: (context, index) => const Cardtodolistwidget()),
+                itemBuilder: (context, index) => Cardtodolistwidget(
+                      getindex: index,
+                    )),
           ],
         ),
       ),
