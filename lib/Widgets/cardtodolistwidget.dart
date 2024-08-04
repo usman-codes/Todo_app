@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -54,15 +55,54 @@ class Cardtodolistwidget extends ConsumerWidget {
                     children: [
                       ListTile(
                         contentPadding: EdgeInsets.zero,
-                        title: Text(tododata[getindex].titletask),
-                        subtitle: Text(tododata[getindex].description),
+                        leading: IconButton(
+                          onPressed: () {
+                            ref
+                                .read(serviceProvider)
+                                .deletetask(tododata[getindex].docid);
+                            Flushbar(
+                              message: 'Please fill all fields',
+                              duration: const Duration(seconds: 2),
+                              backgroundColor: Colors.red,
+                              flushbarPosition: FlushbarPosition.BOTTOM,
+                              icon: const Icon(
+                                Icons.error_outline,
+                                color: Colors.white,
+                              ),
+                              margin: const EdgeInsets.all(8),
+                              borderRadius: BorderRadius.circular(8),
+                              animationDuration:
+                                  const Duration(milliseconds: 300),
+                              reverseAnimationCurve: Curves.bounceIn,
+                            ).show(context);
+                          },
+                          icon: const Icon(Icons.delete_outline_outlined),
+                        ),
+                        title: Text(
+                          tododata[getindex].titletask,
+                          maxLines: 1,
+                          style: TextStyle(
+                              decoration: tododata[getindex].isDone
+                                  ? TextDecoration.lineThrough
+                                  : null),
+                        ),
+                        subtitle: Text(
+                          tododata[getindex].description,
+                          maxLines: 2,
+                          style: TextStyle(
+                              decoration: tododata[getindex].isDone
+                                  ? TextDecoration.lineThrough
+                                  : null),
+                        ),
                         trailing: Transform.scale(
                           scale: 1.5,
                           child: Checkbox(
                               shape: const CircleBorder(),
                               activeColor: Colors.black,
                               value: tododata[getindex].isDone,
-                              onChanged: (value) => (value)),
+                              onChanged: (value) => ref
+                                  .read(serviceProvider)
+                                  .updatetask(tododata[getindex].docid, value)),
                         ),
                       ),
                       Transform.translate(
@@ -76,7 +116,7 @@ class Cardtodolistwidget extends ConsumerWidget {
                               ),
                               Row(
                                 children: [
-                                  const Text('Toady'),
+                                  Text(tododata[getindex].datetask),
                                   const Gap(12),
                                   Text(tododata[getindex].timetask)
                                 ],

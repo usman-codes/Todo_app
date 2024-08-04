@@ -1,17 +1,24 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:todo_app/Provider/currentdate_provider.dart';
+import 'package:todo_app/Provider/dateandtimeprovider.dart';
+
 import 'package:todo_app/Provider/service_provider.dart';
 import 'package:todo_app/Screens/addscrenn.dart';
 import 'package:todo_app/Widgets/cardtodolistwidget.dart';
 
 class Homescreen extends ConsumerWidget {
-  const Homescreen({super.key});
-
+  const Homescreen({
+    super.key,
+  });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final todoData = ref.watch(fetchstreamProvider);
+    final currentdate = ref.watch(maindateProvider);
+
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
       appBar: AppBar(
@@ -37,7 +44,7 @@ class Homescreen extends ConsumerWidget {
               onPressed: () {}, icon: const Icon(CupertinoIcons.calendar))
         ],
       ),
-      body: SingleChildScrollView(
+      body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Column(
           children: [
@@ -45,10 +52,10 @@ class Homescreen extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Column(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Today\'s Task',
                       style: TextStyle(
                           fontSize: 20,
@@ -56,7 +63,7 @@ class Homescreen extends ConsumerWidget {
                           color: Colors.black),
                     ),
                     Text(
-                      "Wednesday,11 May",
+                      currentdate,
                       style: TextStyle(color: Colors.grey),
                     ),
                   ],
@@ -79,12 +86,22 @@ class Homescreen extends ConsumerWidget {
               ],
             ),
             const Gap(20),
-            ListView.builder(
-                itemCount: todoData.value?.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) => Cardtodolistwidget(
+            Expanded(
+              child: todoData.when(
+                data: (todos) {
+                  return ListView.builder(
+                    itemCount: todos.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) => Cardtodolistwidget(
                       getindex: index,
-                    )),
+                    ),
+                  );
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, stackTrace) =>
+                    Center(child: Text(error.toString())),
+              ),
+            ),
           ],
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -186,6 +187,27 @@ class _AddnewtaskmodelState extends ConsumerState<Addnewtaskmodel> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 14, horizontal: 70)),
                   onPressed: () {
+                    if (_titleController.text.isEmpty ||
+                        _descController.text.isEmpty ||
+                        ref.read(radioProvider) == 0 ||
+                        ref.read(dateProvider) == 'dd/mm/yy' ||
+                        ref.read(timeProvider) == 'hh: mm') {
+                      Flushbar(
+                        message: 'Please fill all fields',
+                        duration: const Duration(seconds: 2),
+                        backgroundColor: Colors.red.shade300,
+                        flushbarPosition: FlushbarPosition.BOTTOM,
+                        icon: const Icon(
+                          Icons.error_outline,
+                          color: Colors.white,
+                        ),
+                        margin: const EdgeInsets.all(8),
+                        borderRadius: BorderRadius.circular(8),
+                        animationDuration: const Duration(milliseconds: 300),
+                        reverseAnimationCurve: Curves.bounceIn,
+                      ).show(context);
+                      return;
+                    }
                     final getradiovalue = ref.read(radioProvider);
                     String category = ' ';
                     switch (getradiovalue) {
@@ -200,14 +222,28 @@ class _AddnewtaskmodelState extends ConsumerState<Addnewtaskmodel> {
                         break;
                     }
                     ref.read(serviceProvider).addtodo(Todomodel(
-                        titletask: _titleController.text,
-                        description: _descController.text,
-                        category: category,
-                        datetask: ref.read(dateProvider),
-                        timetask: ref.read(timeProvider),
-                        isDone: false,
+                          titletask: _titleController.text,
+                          description: _descController.text,
+                          category: category,
+                          datetask: ref.read(dateProvider),
+                          timetask: ref.read(timeProvider),
+                          isDone: false,
                         ));
                     Navigator.pop(context);
+                    Flushbar(
+                      message: 'Task Added Succesfully',
+                      duration: const Duration(seconds: 2),
+                      backgroundColor: Colors.green.shade300,
+                      flushbarPosition: FlushbarPosition.BOTTOM,
+                      margin: const EdgeInsets.all(8),
+                      borderRadius: BorderRadius.circular(8),
+                      animationDuration: const Duration(milliseconds: 300),
+                      reverseAnimationCurve: Curves.bounceIn,
+                      icon: const Icon(
+                        Icons.check,
+                        color: Colors.white,
+                      ),
+                    ).show(context);
                     ref.read(radioProvider.notifier).update((state) => 0);
                     ref
                         .read(dateProvider.notifier)
