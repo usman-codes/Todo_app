@@ -26,7 +26,7 @@ class Homescreen extends ConsumerWidget {
         elevation: 0,
         title: ListTile(
           leading: CircleAvatar(
-            child: Image.asset("assets/profile.png"),
+            child: Image.asset("assets/profileg.png"),
           ),
           title: const Text(
             'Hello I\'m',
@@ -77,8 +77,7 @@ class Homescreen extends ConsumerWidget {
                   onPressed: () => showModalBottomSheet(
                       isScrollControlled: true,
                       context: context,
-                      builder: (context) => const Addnewtaskmodel1()
-                      ),
+                      builder: (context) => const Addnewtaskmodel1()),
                   child: const Text(
                     '+ New Task',
                   ),
