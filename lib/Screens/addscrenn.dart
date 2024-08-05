@@ -1,4 +1,3 @@
-import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,14 +13,14 @@ import 'package:todo_app/Widgets/radio_widget.dart';
 
 import '../Provider/dateandtimeprovider.dart';
 
-class Addnewtaskmodel extends ConsumerStatefulWidget {
-  const Addnewtaskmodel({super.key});
+class Addnewtaskmodel1 extends ConsumerStatefulWidget {
+  const Addnewtaskmodel1({super.key});
 
   @override
-  _AddnewtaskmodelState createState() => _AddnewtaskmodelState();
+  _Addnewtaskmodel1State createState() => _Addnewtaskmodel1State();
 }
 
-class _AddnewtaskmodelState extends ConsumerState<Addnewtaskmodel> {
+class _Addnewtaskmodel1State extends ConsumerState<Addnewtaskmodel1> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
 
@@ -192,20 +191,12 @@ class _AddnewtaskmodelState extends ConsumerState<Addnewtaskmodel> {
                         ref.read(radioProvider) == 0 ||
                         ref.read(dateProvider) == 'dd/mm/yy' ||
                         ref.read(timeProvider) == 'hh: mm') {
-                      Flushbar(
-                        message: 'Please fill all fields',
-                        duration: const Duration(seconds: 2),
-                        backgroundColor: Colors.red.shade300,
-                        flushbarPosition: FlushbarPosition.BOTTOM,
-                        icon: const Icon(
-                          Icons.error_outline,
-                          color: Colors.white,
-                        ),
-                        margin: const EdgeInsets.all(8),
-                        borderRadius: BorderRadius.circular(8),
-                        animationDuration: const Duration(milliseconds: 300),
-                        reverseAnimationCurve: Curves.bounceIn,
-                      ).show(context);
+                      showCustomFlushbar(
+                          context: context,
+                          message: 'Please fill all fields',
+                          icon: Icons.error_outline,
+                          backgroundColor: Colors.red.shade300);
+
                       return;
                     }
                     final getradiovalue = ref.read(radioProvider);
@@ -230,20 +221,13 @@ class _AddnewtaskmodelState extends ConsumerState<Addnewtaskmodel> {
                           isDone: false,
                         ));
                     Navigator.pop(context);
-                    Flushbar(
+                    showCustomFlushbar(
+                      context: context,
                       message: 'Task Added Succesfully',
-                      duration: const Duration(seconds: 2),
+                      icon: Icons.check,
                       backgroundColor: Colors.green.shade300,
-                      flushbarPosition: FlushbarPosition.BOTTOM,
-                      margin: const EdgeInsets.all(8),
-                      borderRadius: BorderRadius.circular(8),
-                      animationDuration: const Duration(milliseconds: 300),
-                      reverseAnimationCurve: Curves.bounceIn,
-                      icon: const Icon(
-                        Icons.check,
-                        color: Colors.white,
-                      ),
-                    ).show(context);
+                    );
+
                     ref.read(radioProvider.notifier).update((state) => 0);
                     ref
                         .read(dateProvider.notifier)

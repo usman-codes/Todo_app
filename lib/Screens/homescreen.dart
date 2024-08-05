@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:todo_app/Provider/currentdate_provider.dart';
-import 'package:todo_app/Provider/dateandtimeprovider.dart';
 
 import 'package:todo_app/Provider/service_provider.dart';
 import 'package:todo_app/Screens/addscrenn.dart';
@@ -64,7 +63,7 @@ class Homescreen extends ConsumerWidget {
                     ),
                     Text(
                       currentdate,
-                      style: TextStyle(color: Colors.grey),
+                      style: const TextStyle(color: Colors.grey),
                     ),
                   ],
                 ),
@@ -78,7 +77,8 @@ class Homescreen extends ConsumerWidget {
                   onPressed: () => showModalBottomSheet(
                       isScrollControlled: true,
                       context: context,
-                      builder: (context) => const Addnewtaskmodel()),
+                      builder: (context) => const Addnewtaskmodel1()
+                      ),
                   child: const Text(
                     '+ New Task',
                   ),

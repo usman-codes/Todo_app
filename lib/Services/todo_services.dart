@@ -21,12 +21,8 @@ class TodoServices {
     todoCollection.doc(docid).delete();
   }
     // Edit
-  Future<void> edittodo(String docId, Todomodel updatedTodo) async {
-    try {
-      await todoCollection.doc(docId).update(updatedTodo.toMap());
-    } catch (e) {
-      print("Error updating todo: $e");
-    }
+  void editTask(String? docid, Todomodel updatedTodo) {
+    todoCollection.doc(docid).update(updatedTodo.toMap());
   }
 
 }
