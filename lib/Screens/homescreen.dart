@@ -31,7 +31,7 @@ class Homescreen extends ConsumerWidget {
           title: const Text(
             'Hello I\'m',
             style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.grey),
+                fontSize: 15, fontWeight: FontWeight.bold, color: Colors.grey),
           ),
           subtitle: const Text(
             "Mohammad Usman",
