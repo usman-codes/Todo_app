@@ -2,27 +2,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:todo_app/Models/todomodel.dart';
 
 class TodoServices {
-  final todoCollection = FirebaseFirestore.instance.collection('TodoApp');
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  //CRUD
-
-  //Create
-  void addtodo(Todomodel todo) {
-    todoCollection.add(todo.toMap());
+  Future<void> addtodo(Todomodel todo) async {
+    await _firestore.collection('TodoApp').add(todo.toMap());
   }
 
-  //UPDATE RADIO BUTTON
-  void updatetask(String? docid, bool? valueupdate) {
-    todoCollection.doc(docid).update({'isDone': valueupdate});
+  Future<void> updateTask(Todomodel todo) async {
+    try {
+      await _firestore
+          .collection('TodoApp')
+          .doc(todo.docid)
+          .update(todo.toMap());
+    } catch (e) {
+      print('Error updating task: $e');
+    }
   }
 
-  //DELETE
-  void deletetask(String? docid) {
-    todoCollection.doc(docid).delete();
+  Future<void> deletetask(String? docid) async {
+    if (docid != null) {
+      await _firestore.collection('TodoApp').doc(docid).delete();
+    }
   }
-    // Edit
-  void editTask(String? docid, Todomodel updatedTodo) {
-    todoCollection.doc(docid).update(updatedTodo.toMap());
-  }
-
 }

@@ -10,7 +10,7 @@ class DateNotifier extends StateNotifier<String> {
   Timer? _timer;
 
   void _startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 60), (Timer timer) {
+    _timer = Timer.periodic(const Duration(seconds: 60), (Timer timer) {
       state = _formatDate(DateTime.now());
     });
   }
